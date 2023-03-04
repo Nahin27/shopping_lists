@@ -1,0 +1,6 @@
+<h1><%= it.list[0].name %></h1>
+
+<form action="/lists/<%= it.list[0].id %>/items" method="post">
+    Item name: <input type="text" name="name" id="">
+    <input type="submit" value="Add item">
+</form>

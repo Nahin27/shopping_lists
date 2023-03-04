@@ -4,6 +4,10 @@ const viewList = async () => {
     return await sql`select * from shopping_lists where active = true`;
 };
 
+const listById = async (id) => {
+    return await sql`select * from shopping_lists where id = ${id}`;
+}
+
 const addToList = async (name) => {
     await sql`insert into shopping_lists (name) values (${name})`;
 };
@@ -18,4 +22,4 @@ const countList = async () => {
     return await sql`select count(id) from shopping_lists`;
 }
 
-export { viewList, addToList, deactiveList, countList };
+export { viewList, addToList, deactiveList, countList, listById };

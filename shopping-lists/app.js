@@ -1,9 +1,8 @@
 import { serve } from "./deps.js";
-import { renderFile, configure } from "./deps.js";
+import { configure } from "./deps.js";
 import * as shoppingListController from "./controllers/shoppingListController.js";
-import { countList } from "./services/shoppingListsService.js";
-
-// TODO: 
+import { viewPage } from "./controllers/mainController.js";
+import * as listController from "./controllers/listController.js";
 
 // Configuring the file to find the views files 
 configure({
@@ -19,9 +18,7 @@ const responseDetails = {
 
 const handleRequest = async (request) => {
   const url = new URL(request.url);
-  const data = {
-    lists: await countList(),
-  };
+
   console.log("Responding with Hello world!");
   if (request.method === "GET" && url.pathname === "/lists") {
     // viewing the lists page
@@ -34,9 +31,16 @@ const handleRequest = async (request) => {
   if (request.method === "POST" && url.pathname === "/lists") {
     // creating new list
     return await shoppingListController.createList(request);
-  } else if (url.pathname === "/"){
+  }
+  if (request.method === "GET" && url.pathname === "/"){
     // viewing main page
-    return new Response(await renderFile("index.eta", data), responseDetails);
+    return await viewPage(request);
+  }
+  if (request.method === "GET" && url.pathname.match("/lists/[0-9]+")) {
+    return await listController.view(request);
+  }
+  if (request.method === "POST" && url.pathname.match("lists/[0-9]+/items")) {
+    return await listController.add(request);
   }
 };
 
