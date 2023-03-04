@@ -1,7 +1,7 @@
 import { sql } from "../database/database.js";
 
 const viewItems = async (list_id) => {
-    return await sql`select shopping_list_items.name from shopping_list_items inner join shopping_lists
+    return await sql`select shopping_list_items.name, shopping_list_items.id, shopping_list_items.collected from shopping_list_items inner join shopping_lists
     on shopping_list_items.shopping_list_id = shopping_lists.id
     where shopping_lists.id = ${list_id}
     order by collected, shopping_list_items.name`;

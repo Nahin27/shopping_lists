@@ -9,9 +9,6 @@
     <% it.items.forEach(item => { %>
         <% if (item.collected === true) { %>
             <li><del><%= item.name %></del></li>
-            <form action="/lists/<%= it.list[0].id %>/items/<%= item.id %>/collect" method="post">
-                <input type="submit" value="Mark collected!">
-            </form>
         <% } else { %>
             <li><%= item.name %></li>
             <form action="/lists/<%= it.list[0].id %>/items/<%= item.id %>/collect" method="post">
