@@ -18,10 +18,12 @@ const view = async (request) => {
     const list_id = parts[2];
     const data = {
         list: await shoppingListsService.listById(list_id),
+        items: await listService.viewItems(),
     };
     return new Response(await renderFile("list.eta", data), responseDetails);
 }
 
+// adding a new item
 const add = async (request) => {
     const url = new URL(request.url);
     const formdata = await request.formData();
@@ -34,4 +36,17 @@ const add = async (request) => {
     return requestUtils.redirectTo(`/lists/${id}`);
 }
 
-export { view, add };
+// marking item as collected
+const markCollected = async (request) => {
+    const url = new URL(request.url);
+    const parts = url.pathname.split("/");
+    const id = parts[4];
+    const list_id = parts[2];
+    console.log(id);
+    console.log(list_id);
+    await listService.collectItem(id);
+
+    return requestUtils.redirectTo(`/lists/${list_id}`);
+}
+
+export { view, add, markCollected };

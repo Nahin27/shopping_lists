@@ -37,11 +37,18 @@ const handleRequest = async (request) => {
     return await viewPage(request);
   }
   if (request.method === "GET" && url.pathname.match("/lists/[0-9]+")) {
+    // viewing specific list page
     return await listController.view(request);
   }
+  if (request.method === "POST" && url.pathname.match("/lists/[0-9]+/items/[0-9]+/collect")) {
+    // marking an item as collected
+    return await listController.markCollected(request);
+  }
   if (request.method === "POST" && url.pathname.match("lists/[0-9]+/items")) {
+    // adding new item to a list
     return await listController.add(request);
   }
+
 };
 
 serve(handleRequest, { port: 7777 });
