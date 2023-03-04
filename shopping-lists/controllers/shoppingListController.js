@@ -27,4 +27,14 @@ const createList = async (request) => {
     return requestUtils.redirectTo("/lists");
 }
 
-export { viewLists, createList };
+// deactivating list
+const deactivateList = async (request) => {
+    const url = new URL(request.url);
+    const parts = url.pathname.split("/");
+    const id = parts[2];
+    await shoppingListsService.deactiveList(id);
+
+    return requestUtils.redirectTo("/lists");
+}
+
+export { viewLists, createList, deactivateList };

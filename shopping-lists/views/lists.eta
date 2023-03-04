@@ -11,6 +11,11 @@
     <% it.lists.forEach(list => { %>
         <li>
             <a href="/lists/<%= list.id %>"><%= list.name %></a>
+            <form action="/lists/<%= list.id %>/deactivate" method="post">
+                <input type="submit" value="Deactivate List">
+            </form>
         </li>
     <% }); %>
 </ul>
+
+<h2><a href="/">Main Page</a></h2>

@@ -1,7 +1,7 @@
 import { serve } from "./deps.js";
-import { sql } from "./database/database.js";
 import { renderFile, configure } from "./deps.js";
 import * as shoppingListController from "./controllers/shoppingListController.js";
+import { countList } from "./services/shoppingListsService.js";
 
 // TODO: 
 
@@ -19,11 +19,17 @@ const responseDetails = {
 
 const handleRequest = async (request) => {
   const url = new URL(request.url);
-  const data = {};
+  const data = {
+    lists: await countList(),
+  };
   console.log("Responding with Hello world!");
   if (request.method === "GET" && url.pathname === "/lists") {
     // viewing the lists page
     return await shoppingListController.viewLists(request);
+  }
+  if (request.method === "POST" && url.pathname.match("/lists/[0-9]+/deactivate")) {
+    // deactivating a list
+    return await shoppingListController.deactivateList(request);
   }
   if (request.method === "POST" && url.pathname === "/lists") {
     // creating new list
