@@ -17,26 +17,17 @@ const responseDetails = {
   },
 };
 
-const redirectTo = (path) => {
-  return new Response("", {
-    status: 303,
-    headers: {
-      "Location": path,
-    },
-  });
-};
-
 const handleRequest = async (request) => {
   const url = new URL(request.url);
   const data = {};
   console.log("Responding with Hello world!");
   if (request.method === "GET" && url.pathname === "/lists") {
     // viewing the lists page
-    return shoppingListController.viewLists();
+    return await shoppingListController.viewLists(request);
   }
   if (request.method === "POST" && url.pathname === "/lists") {
     // creating new list
-    return redirectTo("/lists");
+    return await shoppingListController.createList(request);
   } else if (url.pathname === "/"){
     // viewing main page
     return new Response(await renderFile("index.eta", data), responseDetails);

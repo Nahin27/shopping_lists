@@ -1,5 +1,5 @@
 import * as shoppingListsService from "../services/shoppingListsService.js";
-import { redirectTo } from "../utils/requestUtils.js";
+import * as requestUtils from "../utils/requestUtils.js";
 import { configure, renderFile } from "../deps.js";
 
 configure({
@@ -18,4 +18,13 @@ const viewLists = async (request) => {
     return new Response(await renderFile("lists.eta", data), responseDetails);
 }
 
-export { viewLists };
+// what happens when we create list
+const createList = async (request) => {
+    const formData = await request.formData();
+    const name = formData.get("name")
+    await shoppingListsService.addToList(name);
+
+    return requestUtils.redirectTo("/lists");
+}
+
+export { viewLists, createList };
