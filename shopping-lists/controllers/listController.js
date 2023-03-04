@@ -18,8 +18,9 @@ const view = async (request) => {
     const list_id = parts[2];
     const data = {
         list: await shoppingListsService.listById(list_id),
-        items: await listService.viewItems(),
+        items: await listService.viewItems(list_id),
     };
+    console.log(data.items);
     return new Response(await renderFile("list.eta", data), responseDetails);
 }
 

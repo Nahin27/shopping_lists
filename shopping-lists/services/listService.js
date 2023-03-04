@@ -1,7 +1,10 @@
 import { sql } from "../database/database.js";
 
-const viewItems = async () => {
-    return await sql`select * from shopping_list_items order by collected, name`;
+const viewItems = async (list_id) => {
+    return await sql`select shopping_list_items.name from shopping_list_items inner join shopping_lists
+    on shopping_list_items.shopping_list_id = shopping_lists.id
+    where shopping_lists.id = ${list_id}
+    order by collected, shopping_list_items.name`;
 };
 
 const addItem = async (id, name) => {

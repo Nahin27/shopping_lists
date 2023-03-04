@@ -3,8 +3,10 @@
 <% if (it.lists[0].count <= 0) { %>
     <h2>No shopping lists yet.</h2>
 <% } else { %>
-    <h2>Number of created lists: <%= it.lists[0].count %></h2>
-    <h2>number of created items: <%= it.items[0].count %></h2>
+    <ul>
+        <li>Shopping lists: <%= it.lists[0].count %></li>
+        <li>Shopping list items: <%= it.items[0].count %></li>
+    </ul>
 <% } %>
 
 
