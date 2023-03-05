@@ -1,22 +1,59 @@
-<h1><%= it.list[0].name %></h1>
+<% layout("./layouts/layout.eta") %>
 
-<form action="/lists/<%= it.list[0].id %>/items" method="post">
-    Item name: <input type="text" name="name" id="">
-    <input type="submit" value="Add item">
-</form>
+<h1 class="title has-text-centered is-capitalized"><%= it.list[0].name %></h1>
 
-<ul>
-    <% it.items.forEach(item => { %>
-        <% if (item.collected === true) { %>
-            <li><del><%= item.name %></del></li>
-        <% } else { %>
-            <li><%= item.name %></li>
-            <form action="/lists/<%= it.list[0].id %>/items/<%= item.id %>/collect" method="post">
-                <input type="submit" value="Mark collected!">
-            </form>
-        <% } %>
+<%~ includeFile("./partials/nav.eta")%>
 
-    <% }); %>
-</ul>
+<section class="hero">
+    <form action="/lists/<%= it.list[0].id %>/items" method="post">
+        <div class="hero-body">
+            <div class="field">
+                <label class="label is-size-5">Add a new item</label>
+                <div class="control has-icons-left">
+                    <input class="input is-primary" type="text" name="name" placeholder="Name of the item">
+                    <span class="icon is-small is-left">
+                        <i class="fa-solid fa-plus"></i>
+                    </span>
+                </div>
+            </div>     
 
-<h2><a href="/lists">Shopping lists</a></h2>
+            <div class="field">
+                <div class="control">
+                    <input type="submit" value="Create!" class="button is-success">
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+
+<div class="content">
+    <table>
+        <th class="is-size-4">Name</th>
+        <th></th>
+            <% it.items.forEach(item => { %>
+                <% if (item.collected === true) { %>
+                    <tr>
+                        <td>
+                            <del><%= item.name %></del>
+                        </td>
+                        <td>
+                            Collected
+                        </td>
+                    </tr>
+                <% } else { %>
+                    <tr>
+                        <td>
+                            <%= item.name %>
+                        </td>
+                        <td>
+                            <form action="/lists/<%= it.list[0].id %>/items/<%= item.id %>/collect" method="post" class="is-inline">
+                                <input type="submit" value="Mark collected!" class="button is-success">
+                            </form>
+                        </td>
+                    </tr>
+                <% } %>
+
+            <% }); %>
+    </table>
+</div>
+

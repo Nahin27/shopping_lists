@@ -1,21 +1,25 @@
-<h1>Shopping lists</h1>
+<% layout("./layouts/layout.eta") %>
 
-<h2>Add a new list</h2>
+<h1 class="title has-text-centered">Shopping lists</h1>
 
-<form action="/lists" method="post">
-    Enter name of shopping list: <input type="text" name="name" id="">
-    <input type="submit" value="Create!">
-</form>
+<%~ includeFile("./partials/nav.eta") %>
+<%~ includeFile("./partials/createList.eta") %>
 
-<ul>
-    <% it.lists.forEach(list => { %>
-        <li>
-            <a href="/lists/<%= list.id %>"><%= list.name %></a>
-            <form action="/lists/<%= list.id %>/deactivate" method="post">
-                <input type="submit" value="Deactivate List">
-            </form>
-        </li>
-    <% }); %>
-</ul>
-
-<h2><a href="/">Main Page</a></h2>
+<div class="content">
+    <table>
+        <th class="is-size-4">Name</th>
+        <th></th>
+        <% it.lists.forEach(list => { %>
+            <tr>
+                <td class="is-size-5">
+                    <a href="/lists/<%= list.id %>"><%= list.name %></a>
+                </td>
+                <td>
+                    <form action="/lists/<%= list.id %>/deactivate" method="post">
+                        <input type="submit" value="Deactivate List" class="button is-danger">
+                    </form>
+                </td>
+            </tr>
+        <% }); %>
+    </table>
+</div>
